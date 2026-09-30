@@ -2,18 +2,13 @@
 
 **Date:** Sept 30, 2026  
 **Phase Completed:** Phase 1 - Virtual Lab Environment Setup  
-**Focus:** VMWare lab architecture, NAT/host-only networking, Windows/Ubuntu/Kali VM roles, SSH workflow, snapshots, and troubleshooting
 ---
 Goal is build a safe, repeatable, isolated lab environment that could support future phases involving SIEM deployment, endpoint monitoring, IDS traffic analysis, Wazuh XDR, phishing investigation, SOC ticket writing, and attack simulation.
-
-This writeup is intentionally detailed so other aspiring SOC analysts can follow the same process and understand why each step matters.
 
 ---
 ![Lab setup in VMWare](images/setup.png)
 
 # 1. Purpose of Phase 1
-
-Phase 1 created the base virtual environment needed for the rest of the roadmap.
 
 A multiple systems that can communicate with each other in a controlled environment. In a real company, a SOC analyst reviews logs from endpoints, servers, firewalls, EDR tools, SIEM platforms, identity systems, and network security tools.
 
@@ -39,7 +34,7 @@ Later phases added Wazuh as a separate VM, but Phase 1 focused on the original c
 
 ---
 
-# 8. VM 1 - Ubuntu SIEM VM
+# 3. VM 1 - Ubuntu SIEM VM
 
 ## Purpose
 
@@ -53,7 +48,7 @@ The Ubuntu SIEM VM was created to become the central security monitoring server.
 - Dashboards
 - Log ingestion pipelines
 
-# 9. VM 2 - Windows 10 Victim VM
+# 4. VM 2 - Windows 10 Victim VM
 
 ## Purpose
 
@@ -77,7 +72,7 @@ This VM generated logs such as:
 - File activity
 - PowerShell activity
 
-# 10. VM 3 - Kali Linux VM
+# 5. VM 3 - Kali Linux VM
 
 ## Purpose
 
@@ -92,7 +87,7 @@ Later roadmap phases can use Kali for:
 - IDS alert generation
 - Controlled attack exercises
 
-## Step 6 - Install OpenSSH Server on both Linux system
+## Install OpenSSH Server on both Linux system
 
 If prompted, install OpenSSH server or install it later:
 
@@ -107,7 +102,7 @@ Why:
 SSH allows easier copy/paste and administration from the host laptop.
 ```
 
-## Step 7 - Confirm IP Addresses on Linux system
+# 6. Confirm IP Addresses on Linux, SIEM, Windows system
 
 Run:
 
@@ -123,38 +118,6 @@ Host-only IP: usually 192.168.56.x
 ```
 
 
-## Step 6 - Confirm IP on Windows host
-
-Open PowerShell:
-
-```powershell
-ipconfig
-```
-
-Look for:
-
-```text
-Host-only IPv4 Address: 192.168.56.x
-```
-
-The Windows victim later used:
-
-```text
-192.168.56.104
-```
-
-## Step 6 - Confirm IP on linux attk machine
-
-Run:
-
-```bash
-ip addr
-```
-
-Confirm the host-only address.
-
----
-
 ## Test Lab Connectivity
 
 From Ubuntu SIEM to Windows:
@@ -163,18 +126,18 @@ From Ubuntu SIEM to Windows:
 
 From Windows to Ubuntu SIEM:
 
-# 17. SSH Access to Ubuntu SIEM
+# 7. SSH Access to Ubuntu SIEM
 
 Why SSH matters:
 
 - Easier copy/paste
 - Easier command execution
 - More realistic Linux administration
-- Better than typing long commands inside VirtualBox console
+- Better than typing long commands inside VMWare console
 
 ---
 
-# 18. Why Snapshots Were Important
+# 8. Why Snapshots Were Important
 
 Snapshots were taken after clean setup milestones.
 
@@ -199,14 +162,14 @@ Why snapshots matter:
 
 ---
 
-# 19. Phase 1 Issues and Troubleshooting
+# 9. Phase 1 Issues and Troubleshooting
 
-## Issue 3 - Running Too Many VMs at Once
+## Issue 1 - Not enough space for set up SIEM Wazuh
+Initially i have set a 4GB RAM and 1 core CPU but it start hanging while setting Wazuh. Fixed it by increase the hardware config to 6GB RAM and 2 core CPU
 
+## Issue 2 - Need for SSH / Copy-Paste
 
-## Issue 4 - Need for SSH / Copy-Paste
-
-Typing long commands directly into the VirtualBox console is inefficient and error-prone.
+Typing long commands directly into the VMWare console is inefficient and error-prone.
 
 Resolution:
 
@@ -230,15 +193,16 @@ SSH improves workflow and mirrors real Linux administration.
 
 ---
 
-## Issue 5 - Windows Firewall / Ping Behavior
+## Issue 3 - Windows Firewall / Ping Behavior
 
-# 20. What Phase 1 Proved
+set up a private lab is like create a small network within a virtual machine, ensure all machines can talk to each other
+# 10. What Phase 1 Proved
 
 By the end of Phase 1, the lab had a working virtual foundation.
 
 Confirmed:
 
-- VirtualBox installed and usable
+- VMWare installed and usable
 - Ubuntu SIEM VM created
 - Windows 10 victim VM created
 - Kali Linux VM created or planned as attacker/testing machine
@@ -251,7 +215,7 @@ Confirmed:
 
 ---
 
-# 21. Why Phase 1 Matters for SOC Analyst Skills
+# 11. Why Phase 1 Matters for SOC Analyst Skills
 
 Phase 1 may look like basic setup, but it maps directly to real IT/security work.
 
@@ -272,31 +236,19 @@ Phase 1 introduced those concepts through hands-on setup.
 
 ---
 
-# 22. Interview Translation
+# 12. Interview Translation
 
 A strong way to explain Phase 1 in an interview:
 
 ```text
-I built a virtual SOC lab using VirtualBox with separate Ubuntu, Windows, and Kali virtual machines. I configured NAT networking for internet access and host-only networking for private lab communication. The Windows VM acts as the monitored endpoint, the Ubuntu VM acts as the SIEM server, and Kali is reserved for controlled testing and traffic generation. I validated connectivity using ipconfig, ip addr, ping, and SSH, then took clean snapshots before installing security tools. This gave me a safe environment to build Elastic, Wazuh, Sysmon, Suricata, and future SOC investigations without affecting my real network.
+I built a virtual SOC lab using VMWare with separate Ubuntu, Windows, and Kali virtual machines. I configured NAT networking for internet access and host-only networking for private lab communication. The Windows VM acts as the monitored endpoint, the Ubuntu VM acts as the SIEM server, and Kali is reserved for controlled testing and traffic generation. I validated connectivity using ipconfig, ip addr, ping, and SSH, then took clean snapshots before installing security tools. This gave me a safe environment to build Elastic, Wazuh, Sysmon, Suricata, and future SOC investigations without affecting my real network.
 ```
 
----
-
-# 23. Community Explanation for Aspiring SOC Analysts
-
-If someone new to SOC labs asks why Phase 1 matters, explain it like this:
-
-```text
-Before you can investigate alerts, you need machines that create alerts and a place to collect them. Phase 1 builds that environment. The Windows VM becomes the endpoint. The Ubuntu VM becomes the SIEM. Kali becomes the testing machine. NAT gives the VMs internet access, and host-only networking lets the lab machines talk privately. Once that works, you can safely install logging agents, generate events, and practice real SOC workflows.
-```
-
----
-
-# 24. Phase 1 Checklist
+# 13. Phase 1 Checklist
 
 Completed or established:
 
-- VirtualBox used as the hypervisor
+- VMWare used as the hypervisor
 - Ubuntu SIEM VM created
 - Windows 10 victim VM created
 - Kali Linux testing VM created/planned
@@ -312,9 +264,9 @@ Completed or established:
 
 ---
 
-# 25. Final Phase 1 Summary
+# 14. Final Phase 1 Summary
 
-Phase 1 created the foundation for the entire SOC Analyst home lab. The lab was designed around a realistic security operations structure: a monitored Windows endpoint, an Ubuntu-based SIEM server, and a Kali testing machine. VirtualBox networking was configured with NAT for internet access and host-only networking for private lab communication.
+Phase 1 created the foundation for the entire SOC Analyst home lab. The lab was designed around a realistic security operations structure: a monitored Windows endpoint, an Ubuntu-based SIEM server, and a Kali testing machine. VMWare networking was configured with NAT for internet access and host-only networking for private lab communication.
 
 The phase also introduced important troubleshooting concepts such as IP identification, adapter roles, ping behavior, firewall considerations, SSH access, and snapshot management. This foundation made the later phases possible, including Elastic SIEM deployment, Sysmon telemetry, Suricata IDS, Wazuh XDR, ticket writing, and SOC investigation practice.
 

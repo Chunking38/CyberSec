@@ -9,6 +9,7 @@ Goal is build a safe, repeatable, isolated lab environment that could support fu
 This writeup is intentionally detailed so other aspiring SOC analysts can follow the same process and understand why each step matters.
 
 ---
+![Lab setup in VMWare](images/setup.png)
 
 # 1. Purpose of Phase 1
 

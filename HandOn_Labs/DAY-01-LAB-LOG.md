@@ -1,5 +1,5 @@
 # Day 01 Lab Log - Phase 1: Virtual Lab Foundation for SOC Analyst Home Lab
-**Date:** May 18, 2026  
+**Date:** Sept 30, 2026  
 **Phase Completed:** Phase 1 - Virtual Lab Environment Setup  
 **Focus:** VmWare lab architecture, NAT/host-only networking, Windows/Ubuntu/Kali VM roles, SSH workflow, snapshots, and troubleshooting
 ---
@@ -107,7 +107,7 @@ Wazuh Server later:   192.168.56.105
 
 ---
 
-# 7. Phase 1 Network Diagram
+# 4. Phase 1 Network Diagram
 
 Basic Phase 1 layout:
 
@@ -139,7 +139,7 @@ But Phase 1 created the foundation.
 
 ---
 
-# 8. VM 1 - Ubuntu SIEM VM
+# 5. VM 1 - Ubuntu SIEM VM
 
 ## Purpose
 
@@ -178,7 +178,7 @@ If resources are limited, the SIEM VM should be prioritized because it runs the 
 
 ---
 
-# 9. VM 2 - Windows 10 Victim VM
+# 6. VM 2 - Windows 10 Victim VM
 
 ## Purpose
 
@@ -232,7 +232,7 @@ Phase 1 created the endpoint that would later generate all of that telemetry.
 
 ---
 
-# 10. VM 3 - Kali Linux VM
+# 7. VM 3 - Kali Linux VM
 
 ## Purpose
 
@@ -268,7 +268,7 @@ Kali gives a safe way to generate controlled scanning and attack-like activity l
 
 ---
 
-# 11. Installation Process Overview
+# 8. Installation Process Overview
 
 The general VM installation process for each machine followed this pattern:
 
@@ -290,7 +290,7 @@ This process matters because every future phase depends on clean networking and 
 
 ---
 
-# 12. Ubuntu Installation Steps
+# 9. Ubuntu Installation Steps
 
 
 ## Configure Network
@@ -344,7 +344,7 @@ The SIEM VM was later referenced as:
 
 ---
 
-# 13. Windows 10 Installation Steps
+# 10. Windows 10 Installation Steps
 
 ## Configure Network
 
@@ -377,7 +377,7 @@ The Windows victim later used:
 
 ---
 
-# 14. Kali Installation Steps
+# 11. Kali Installation Steps
 
 ## Configure Network
 
@@ -400,7 +400,7 @@ Confirm the host-only address.
 
 ---
 
-# 15. Basic Connectivity Testing
+# 12. Basic Connectivity Testing
 
 Once the VMs were installed, networking needed to be verified.
 
@@ -458,7 +458,7 @@ VMs can reach each other over host-only network
 
 ---
 
-# 16. Windows Firewall Note
+# 13. Windows Firewall Note
 
 Sometimes Windows does not respond to ping because Windows Defender Firewall blocks ICMP echo requests.
 
@@ -479,7 +479,7 @@ Network troubleshooting requires understanding both connectivity and firewall be
 
 ---
 
-# 17. SSH Access to Ubuntu SIEM
+# 14. SSH Access to Ubuntu SIEM
 
 Once Ubuntu had OpenSSH installed, the host laptop could connect by SSH.
 
@@ -504,7 +504,7 @@ Why SSH matters:
 
 ---
 
-# 18. Why Snapshots Were Important
+# 15. Why Snapshots Were Important
 
 Snapshots were taken after clean setup milestones.
 
@@ -533,7 +533,7 @@ Why snapshots matter:
 
 ---
 
-# 19. Phase 1 Issues and Troubleshooting
+# 16. Phase 1 Issues and Troubleshooting
 
 ## Issue 1 - Default IP Address configuration
 
@@ -569,7 +569,7 @@ SSH improves workflow and mirrors real Linux administration.
 
 ---
 
-# 20. What Phase 1 Proved
+# 17. What Phase 1 Proved
 
 By the end of Phase 1, the lab had a working virtual foundation.
 
@@ -588,7 +588,7 @@ Confirmed:
 
 ---
 
-# 21. Why Phase 1 Matters for SOC Analyst Skills
+# 18. Why Phase 1 Matters for SOC Analyst Skills
 
 Phase 1 may look like basic setup, but it maps directly to real IT/security work.
 
@@ -609,7 +609,7 @@ Phase 1 introduced those concepts through hands-on setup.
 
 ---
 
-# 22. Interview Translation
+# 19. Interview Translation
 
 A strong way to explain Phase 1 in an interview:
 
@@ -619,7 +619,7 @@ I built a virtual SOC lab using VmWare with separate Ubuntu, Windows, and Kali v
 
 ---
 
-# 23. Community Explanation for Aspiring SOC Analysts
+# 20. Community Explanation for Aspiring SOC Analysts
 
 If someone new to SOC labs asks why Phase 1 matters, explain it like this:
 
@@ -629,7 +629,7 @@ Before you can investigate alerts, you need machines that create alerts and a pl
 
 ---
 
-# 24. Phase 1 Checklist
+# 21. Phase 1 Checklist
 
 Completed or established:
 
@@ -649,7 +649,7 @@ Completed or established:
 
 ---
 
-# 25. Final Phase 1 Summary
+# 22. Final Phase 1 Summary
 
 Phase 1 created the foundation for the entire SOC Analyst home lab. The lab was designed around a realistic security operations structure: a monitored Windows endpoint, an Ubuntu-based SIEM server, and a Kali testing machine. VmWare networking was configured with NAT for internet access and host-only networking for private lab communication.
 

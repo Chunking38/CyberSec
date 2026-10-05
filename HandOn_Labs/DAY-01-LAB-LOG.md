@@ -1,40 +1,26 @@
-# Day 01 Lab Log - Phase 1 Complete: Virtual Lab Foundation for SOC Analyst Home Lab
-
+# Day 01 Lab Log - Phase 1: Virtual Lab Foundation for SOC Analyst Home Lab
 **Date:** May 18, 2026  
 **Phase Completed:** Phase 1 - Virtual Lab Environment Setup  
-**Focus:** VirtualBox lab architecture, NAT/host-only networking, Windows/Ubuntu/Kali VM roles, SSH workflow, snapshots, and troubleshooting
-
+**Focus:** VmWare lab architecture, NAT/host-only networking, Windows/Ubuntu/Kali VM roles, SSH workflow, snapshots, and troubleshooting
 ---
 
 ## Phase 1 Title
 
 **Phase 1 - Virtual Lab Environment Setup**
-
-## Phase 1 Status
-
-**Completed**
-
-This phase built the foundation for the entire SOC Analyst home lab. The goal was not just to install VirtualBox and create virtual machines. The goal was to build a safe, repeatable, isolated lab environment that could support future phases involving SIEM deployment, endpoint monitoring, IDS traffic analysis, Wazuh XDR, phishing investigation, SOC ticket writing, and attack simulation.
-
-This writeup is intentionally detailed so other aspiring SOC analysts can follow the same process and understand why each step matters.
+This phase built the foundation for the entire SOC Analyst home lab. The goal is to build a safe, repeatable, isolated lab environment that could support future phases involving SIEM deployment, endpoint monitoring, IDS traffic analysis, Wazuh XDR, phishing investigation, SOC ticket writing, and attack simulation.
 
 ---
 
 # 1. Purpose of Phase 1
-
-Phase 1 created the base virtual environment needed for the rest of the roadmap.
 
 A SOC analyst home lab needs multiple systems that can communicate with each other in a controlled environment. In a real company, a SOC analyst reviews logs from endpoints, servers, firewalls, EDR tools, SIEM platforms, identity systems, and network security tools.
 
 In this lab, those pieces are simulated with virtual machines.
 
 The purpose of this phase was to create:
-
-- A safe virtual network
 - A Windows victim endpoint
 - An Ubuntu SIEM server
 - A Kali Linux attacker/testing machine
-- A repeatable IP addressing plan
 - A baseline snapshot strategy
 - A clean foundation before installing security tools
 
@@ -70,41 +56,7 @@ Later phases added Wazuh as a separate VM, but Phase 1 focused on the original c
 | Kali Linux VM | Testing/attacker box | Used later for scanning, traffic generation, and safe attack simulation |
 
 ---
-
-# 3. Why VirtualBox Was Used
-
-Oracle VirtualBox was used as the hypervisor because it is free, beginner-friendly, and works well for home labs.
-
-A hypervisor lets multiple virtual machines run on one physical laptop/desktop. Each VM behaves like a separate computer with its own operating system, disk, CPU, RAM, and network adapter.
-
-For a SOC lab, virtualization is useful because:
-
-- It allows multiple machines to run on one computer.
-- It lets the analyst safely break and fix systems.
-- It allows snapshots before risky changes.
-- It creates an isolated network separate from the real home network.
-- It makes it possible to simulate endpoints, servers, and attacker machines.
-
----
-
-# 4. Important Safety Principle
-
-The lab must be isolated enough that experiments do not affect the real home network or work devices.
-
-This is why the lab used VirtualBox networking instead of exposing everything directly to the home LAN.
-
-The key idea:
-
-```text
-NAT = internet access
-Host-only = private lab communication
-```
-
-This allows the VMs to download packages while still keeping lab communication mostly contained inside a private virtual network.
-
----
-
-# 5. VirtualBox Network Design
+# 3. VmWare Network Design
 
 Phase 1 used two main network adapter types:
 
@@ -123,14 +75,13 @@ Used for:
 - Updating tools
 - Accessing public repositories
 
-NAT is useful because the VM can reach the internet, but the internet cannot easily reach back into the VM.
 
 ## Host-Only Adapter
 
 Purpose:
 
 ```text
-Allows VMs to communicate with each other on a private VirtualBox network.
+Allows VMs to communicate with each other on a private VmWare network.
 ```
 
 Used for:
@@ -153,35 +104,6 @@ Ubuntu SIEM VM:       192.168.56.101
 Windows 10 Victim VM: 192.168.56.104
 Wazuh Server later:   192.168.56.105
 ```
-
----
-
-# 6. Why Two Adapters Were Used
-
-Each major VM needed internet access and lab communication.
-
-The design:
-
-```text
-Adapter 1: NAT
-Adapter 2: Host-only Adapter
-```
-
-or depending on the VM order:
-
-```text
-Adapter 1: Host-only Adapter
-Adapter 2: NAT
-```
-
-The important part is not the adapter number. The important part is that each VM has:
-
-```text
-One adapter for internet
-One adapter for private lab traffic
-```
-
-This mirrors real-world networking concepts where machines may have different routes/interfaces for different purposes.
 
 ---
 
@@ -316,14 +238,7 @@ Phase 1 created the endpoint that would later generate all of that telemetry.
 
 Kali Linux was included as the attacker/testing machine for later phases.
 
-Important note:
-
-```text
-Kali is not used to attack real systems.
-Kali is only used inside the lab against lab-owned virtual machines.
-```
-
-Later roadmap phases can use Kali for:
+Can use Kali for:
 
 - Nmap scans
 - Safe traffic generation
@@ -359,7 +274,7 @@ The general VM installation process for each machine followed this pattern:
 
 ```text
 1. Download ISO
-2. Create VM in VirtualBox
+2. Create VM in VmWare
 3. Assign RAM/CPU/disk
 4. Attach ISO
 5. Configure NAT + Host-only adapters
@@ -377,29 +292,8 @@ This process matters because every future phase depends on clean networking and 
 
 # 12. Ubuntu Installation Steps
 
-## Step 1 - Create VM
 
-In VirtualBox:
-
-```text
-New -> Name VM -> Select Linux / Ubuntu 64-bit
-```
-
-## Step 2 - Assign Resources
-
-Recommended:
-
-```text
-RAM: 8192 MB if available
-CPU: 2-4 cores
-Disk: 80 GB dynamically allocated
-```
-
-## Step 3 - Attach Ubuntu ISO
-
-Attach the Ubuntu ISO as the optical disk.
-
-## Step 4 - Configure Network
+## Configure Network
 
 Use:
 
@@ -408,19 +302,11 @@ Adapter 1: NAT
 Adapter 2: Host-only Adapter
 ```
 
-## Step 5 - Install Ubuntu
+## Install Ubuntu
 
-During install:
 
-```text
-Hostname: ubuntu-siem or siem-ubuntu
-Username: lab user
-Password: saved locally
-```
 
-Do not store passwords in GitHub or screenshots.
-
-## Step 6 - Install OpenSSH Server
+## Install OpenSSH Server
 
 If prompted, install OpenSSH server or install it later:
 
@@ -435,7 +321,7 @@ Why:
 SSH allows easier copy/paste and administration from the host laptop.
 ```
 
-## Step 7 - Confirm IP Addresses
+## Confirm IP Addresses
 
 Run:
 
@@ -460,29 +346,7 @@ The SIEM VM was later referenced as:
 
 # 13. Windows 10 Installation Steps
 
-## Step 1 - Create VM
-
-In VirtualBox:
-
-```text
-New -> Microsoft Windows -> Windows 10 64-bit
-```
-
-## Step 2 - Assign Resources
-
-Recommended:
-
-```text
-RAM: 4096 MB or more
-CPU: 2 cores
-Disk: 60-80 GB dynamically allocated
-```
-
-## Step 3 - Attach Windows ISO
-
-Attach the Windows 10 ISO.
-
-## Step 4 - Configure Network
+## Configure Network
 
 Use:
 
@@ -491,11 +355,7 @@ Adapter 1: NAT
 Adapter 2: Host-only Adapter
 ```
 
-## Step 5 - Install Windows
-
-Install Windows normally.
-
-## Step 6 - Confirm IP
+## Confirm IP
 
 Open PowerShell:
 
@@ -519,29 +379,7 @@ The Windows victim later used:
 
 # 14. Kali Installation Steps
 
-## Step 1 - Create VM
-
-In VirtualBox:
-
-```text
-New -> Linux -> Debian 64-bit
-```
-
-## Step 2 - Assign Resources
-
-Recommended:
-
-```text
-RAM: 2048-4096 MB
-CPU: 2 cores
-Disk: 40-60 GB dynamically allocated
-```
-
-## Step 3 - Attach Kali ISO
-
-Attach the Kali ISO.
-
-## Step 4 - Configure Network
+## Configure Network
 
 Use:
 
@@ -550,11 +388,7 @@ Adapter 1: NAT
 Adapter 2: Host-only Adapter
 ```
 
-## Step 5 - Install Kali
-
-Install normally.
-
-## Step 6 - Confirm IP
+## Confirm IP
 
 Run:
 
@@ -666,7 +500,7 @@ Why SSH matters:
 - Easier copy/paste
 - Easier command execution
 - More realistic Linux administration
-- Better than typing long commands inside VirtualBox console
+- Better than typing long commands inside VmWare console
 
 ---
 
@@ -701,94 +535,17 @@ Why snapshots matter:
 
 # 19. Phase 1 Issues and Troubleshooting
 
-## Issue 1 - Understanding NAT vs Host-Only
+## Issue 1 - Default IP Address configuration
 
-Early lab setup required understanding why a VM may have more than one network adapter.
 
-Resolution:
-
-```text
-NAT was used for internet.
-Host-only was used for private lab communication.
-```
-
-Lesson:
-
-```text
-Do not rely on one adapter for everything.
-Separate internet access from internal lab traffic.
-```
-
----
-
-## Issue 2 - IP Address Confusion
-
-Different VMs had different interfaces and IP ranges.
-
-Example:
-
-```text
-10.x.x.x = NAT
-192.168.56.x = Host-only lab network
-```
-
-Resolution:
-
-Use:
-
-```bash
-ip addr
-```
-
-on Linux and:
-
-```powershell
-ipconfig
-```
-
-on Windows.
-
-Lesson:
-
-```text
-Use the 192.168.56.x address for lab VM-to-VM communication.
-Use NAT for internet access.
-```
-
----
-
-## Issue 3 - Running Too Many VMs at Once
+## Issue 2 - Assign enough space for a VM to run 
 
 The laptop has limited resources, so running every VM at the same time can cause lag or service problems.
 
-Resolution:
 
-Only run the VMs needed for the current phase.
+## Issue 3 - Need for SSH / Copy-Paste
 
-Examples:
-
-```text
-Elastic work:
-Run Ubuntu SIEM + Windows victim
-
-Wazuh work:
-Run Wazuh server + Windows victim
-
-Kali testing:
-Run Kali + target VM + monitoring VM if needed
-```
-
-Lesson:
-
-```text
-Resource planning is part of lab design.
-```
-
----
-
-## Issue 4 - Need for SSH / Copy-Paste
-
-Typing long commands directly into the VirtualBox console is inefficient and error-prone.
+Typing long commands directly into the VmWare console is inefficient and error-prone.
 
 Resolution:
 
@@ -812,29 +569,13 @@ SSH improves workflow and mirrors real Linux administration.
 
 ---
 
-## Issue 5 - Windows Firewall / Ping Behavior
-
-Windows may not always respond to ping even when it is online.
-
-Resolution:
-
-Understand that ICMP may be blocked by firewall policy.
-
-Lesson:
-
-```text
-If ping fails, check firewall and service connectivity before assuming the host is down.
-```
-
----
-
 # 20. What Phase 1 Proved
 
 By the end of Phase 1, the lab had a working virtual foundation.
 
 Confirmed:
 
-- VirtualBox installed and usable
+- VmWare installed and usable
 - Ubuntu SIEM VM created
 - Windows 10 victim VM created
 - Kali Linux VM created or planned as attacker/testing machine
@@ -873,7 +614,7 @@ Phase 1 introduced those concepts through hands-on setup.
 A strong way to explain Phase 1 in an interview:
 
 ```text
-I built a virtual SOC lab using VirtualBox with separate Ubuntu, Windows, and Kali virtual machines. I configured NAT networking for internet access and host-only networking for private lab communication. The Windows VM acts as the monitored endpoint, the Ubuntu VM acts as the SIEM server, and Kali is reserved for controlled testing and traffic generation. I validated connectivity using ipconfig, ip addr, ping, and SSH, then took clean snapshots before installing security tools. This gave me a safe environment to build Elastic, Wazuh, Sysmon, Suricata, and future SOC investigations without affecting my real network.
+I built a virtual SOC lab using VmWare with separate Ubuntu, Windows, and Kali virtual machines. I configured NAT networking for internet access and host-only networking for private lab communication. The Windows VM acts as the monitored endpoint, the Ubuntu VM acts as the SIEM server, and Kali is reserved for controlled testing and traffic generation. I validated connectivity using ipconfig, ip addr, ping, and SSH, then took clean snapshots before installing security tools. This gave me a safe environment to build Elastic, Wazuh, Sysmon, Suricata, and future SOC investigations without affecting my real network.
 ```
 
 ---
@@ -892,7 +633,7 @@ Before you can investigate alerts, you need machines that create alerts and a pl
 
 Completed or established:
 
-- VirtualBox used as the hypervisor
+- VmWare used as the hypervisor
 - Ubuntu SIEM VM created
 - Windows 10 victim VM created
 - Kali Linux testing VM created/planned
@@ -910,7 +651,7 @@ Completed or established:
 
 # 25. Final Phase 1 Summary
 
-Phase 1 created the foundation for the entire SOC Analyst home lab. The lab was designed around a realistic security operations structure: a monitored Windows endpoint, an Ubuntu-based SIEM server, and a Kali testing machine. VirtualBox networking was configured with NAT for internet access and host-only networking for private lab communication.
+Phase 1 created the foundation for the entire SOC Analyst home lab. The lab was designed around a realistic security operations structure: a monitored Windows endpoint, an Ubuntu-based SIEM server, and a Kali testing machine. VmWare networking was configured with NAT for internet access and host-only networking for private lab communication.
 
 The phase also introduced important troubleshooting concepts such as IP identification, adapter roles, ping behavior, firewall considerations, SSH access, and snapshot management. This foundation made the later phases possible, including Elastic SIEM deployment, Sysmon telemetry, Suricata IDS, Wazuh XDR, ticket writing, and SOC investigation practice.
 

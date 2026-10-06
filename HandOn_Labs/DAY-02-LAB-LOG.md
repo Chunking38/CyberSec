@@ -1,33 +1,21 @@
-# Day 02 Lab Log - Phase 2 Complete: Elastic SIEM, Fleet, Sysmon, Windows Telemetry, and Suricata IDS
+# Phase 2: Elastic SIEM, Fleet, Sysmon, Windows Telemetry, and Suricata IDS
 
-**Date:** May 19, 2026  
-**Phase Completed:** Phase 2 - Elastic SIEM + Windows Endpoint Telemetry + Suricata IDS  
+**Date:**  Oct 06, 2026  
 **Focus:** Elasticsearch, Kibana, Fleet Server, Elastic Agent, Sysmon, Windows Event Logs, Suricata IDS, Kibana Discover, dashboards, and troubleshooting  
 **Primary SIEM Host IP:** `192.168.56.101`  
 **Windows Victim Host:** `DESKTOP-3JKM5O9`
-
 ---
-
 ## Phase 2 Title
 
 **Phase 2 - Elastic SIEM + Windows Endpoint Telemetry + Suricata IDS**
 
-## Phase 2 Status
-
-**Completed**
-
-Phase 2 was the first major security tooling phase of the home SOC lab. Phase 1 created the virtual lab foundation. Phase 2 turned that foundation into a working SIEM pipeline by installing and configuring Elastic/Kibana, Fleet, Elastic Agent, Sysmon, Windows log collection, and Suricata IDS.
-
-This phase is one of the most important parts of the roadmap because it creates the core SOC workflow:
+A working SIEM pipeline by installing and configuring Elastic/Kibana, Fleet, Elastic Agent, Sysmon, Windows log collection, and Suricata IDS.
+It creates the core SOC workflow:
 
 ```text
 Endpoint activity -> agent collection -> SIEM storage -> analyst search -> dashboard/investigation
 ```
-
-This writeup is intentionally detailed so other aspiring SOC analysts can understand not just what was installed, but why each component matters and how the pieces fit together.
-
 ---
-
 # 1. Purpose of Phase 2
 
 The goal of Phase 2 was to build a working SIEM pipeline using Elastic.
@@ -98,7 +86,6 @@ What parent process launched it?
 What DNS query happened?
 What network connection was made?
 ```
-
 Network telemetry helps answer:
 
 ```text
@@ -123,12 +110,6 @@ Role:
 - Elastic management node
 - Suricata IDS host
 
-Known host-only IP:
-
-```text
-192.168.56.101
-```
-
 Purpose:
 
 ```text
@@ -143,18 +124,6 @@ Role:
 - Windows log source
 - Sysmon telemetry source
 - Elastic Agent endpoint
-
-Known host-only IP used later:
-
-```text
-192.168.56.104
-```
-
-Known host name:
-
-```text
-DESKTOP-3JKM5O9
-```
 
 Purpose:
 
@@ -183,8 +152,6 @@ Generate scans, safe attack traffic, and controlled IDS/SIEM events.
 
 Elasticsearch is the backend data store. It stores indexed log data so Kibana can search it.
 
-SOC analogy:
-
 ```text
 Elasticsearch is the database where security events live.
 ```
@@ -192,8 +159,6 @@ Elasticsearch is the database where security events live.
 ## Kibana
 
 Kibana is the web interface used to search, filter, visualize, and investigate logs.
-
-SOC analogy:
 
 ```text
 Kibana is the analyst console.
@@ -203,8 +168,6 @@ Kibana is the analyst console.
 
 Fleet manages Elastic Agents and policies.
 
-SOC analogy:
-
 ```text
 Fleet is the management console for endpoint log collectors.
 ```
@@ -212,8 +175,6 @@ Fleet is the management console for endpoint log collectors.
 ## Elastic Agent
 
 Elastic Agent runs on endpoints and ships logs back to Elastic.
-
-SOC analogy:
 
 ```text
 Elastic Agent is the sensor/collector installed on the endpoint.
@@ -223,8 +184,6 @@ Elastic Agent is the sensor/collector installed on the endpoint.
 
 Sysmon is a Microsoft Sysinternals tool that creates detailed Windows endpoint telemetry.
 
-SOC analogy:
-
 ```text
 Sysmon gives analysts deeper endpoint visibility than default Windows logs.
 ```
@@ -233,8 +192,6 @@ Sysmon gives analysts deeper endpoint visibility than default Windows logs.
 
 The SwiftOnSecurity Sysmon configuration was used to improve event collection quality without writing a full Sysmon configuration from scratch.
 
-Purpose:
-
 ```text
 Collect useful endpoint events while reducing some unnecessary noise.
 ```
@@ -242,8 +199,6 @@ Collect useful endpoint events while reducing some unnecessary noise.
 ## Suricata
 
 Suricata is an IDS/IPS engine used for network traffic inspection.
-
-SOC analogy:
 
 ```text
 Suricata is the network sensor that can alert on suspicious traffic patterns.
@@ -289,7 +244,7 @@ winlog.event_data.User
 
 Install Elasticsearch and Kibana on the Ubuntu SIEM VM so logs could be collected, indexed, searched, and visualized.
 
-## General Steps Completed
+## General Steps
 
 The high-level process was:
 
@@ -507,7 +462,7 @@ winlog.channel : "Microsoft-Windows-Sysmon/Operational"
 The Windows integration collects logs such as:
 
 - Security
-- System
+- System 
 - Application
 - Sysmon/Operational if configured
 - PowerShell logs if enabled/configured

@@ -161,7 +161,7 @@ Users Group Changed
 Domain Users Group Changed
 User account disabled or deleted
 ```
-
+![Lab setup in VMWare](images/logwahzuaccountpolici.png) 
 Key alert:
 
 ```text

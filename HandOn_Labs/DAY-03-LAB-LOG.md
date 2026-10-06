@@ -1,4 +1,4 @@
-# Day 03 Lab Log - Phase 3 Complete: Wazuh XDR Deployment
+# Day 03 Lab Log - Phase 3: Wazuh XDR Deployment
 
 ## Phase Goal
 
@@ -57,11 +57,6 @@ NAT IP:       10.0.3.15
 ### Ubuntu Server and SSH
 
 Ubuntu Server was installed with OpenSSH enabled so the server could be managed from Windows PowerShell instead of relying on the VirtualBox console.
-
-```powershell
-ssh mmajeed@192.168.56.105
-```
-
 Internet connectivity was verified from the Wazuh server, and host-only communication was validated between the Wazuh server and Windows victim VM.
 
 ### Wazuh All-in-One Install
@@ -74,7 +69,6 @@ sudo apt install -y curl wget apt-transport-https unzip gnupg
 curl -sO https://packages.wazuh.com/4.14/wazuh-install.sh
 sudo bash ./wazuh-install.sh -a
 ```
-
 Installed components:
 
 ```text

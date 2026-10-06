@@ -50,7 +50,7 @@ NAT adapter       = internet access for downloads and updates
 Assigned IPs:
 
 ```text
-Host-only IP: 192.168.56.105
+Host-only IP: 192.168.226.128
 NAT IP:       10.0.3.15
 ```
 
@@ -81,12 +81,13 @@ Filebeat
 The Wazuh dashboard became available at:
 
 ```text
-https://192.168.56.105
+https://192.168.226.128
 ```
 
 The browser displayed a certificate warning because Wazuh uses a self-signed certificate by default. That is expected in a private lab environment.
 
 Security note: the generated Wazuh admin password appeared in terminal output, so any screenshots containing that password should stay private and should not be uploaded to GitHub or LinkedIn.
+![Lab setup in VMWare](images/wazuhlogin.png)
 
 ### Windows Wazuh Agent Deployment
 

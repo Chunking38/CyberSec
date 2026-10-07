@@ -1,16 +1,9 @@
-# Day 06 Lab Log - Phase 6 Complete: SOC Ticket Writing, Escalation, and Shift Handoff
+# Day 06 Lab Log - Phase 6: SOC Ticket Writing, Escalation, and Shift Handoff
 
-**Date:** May 23, 2026  
-**Phase Completed:** Phase 6 - SOC Ticket Writing, Escalation, and Shift Handoff  
+**Date:** Oct 7, 2026  
 **Focus:** SOC ticket templates, severity reasoning, escalation summaries, shift handoff notes, and analyst documentation discipline
 
 ---
-
-## Phase 6 Title
-
-**Phase 6 - SOC Ticket Writing, Escalation, and Shift Handoff**
-
-## Phase 6 Status
 
 **Completed for website / portfolio documentation**
 
@@ -100,19 +93,19 @@ Role:
 Known host-only IP:
 
 ```text
-192.168.56.104
+192.168.
 ```
 
 Hostname:
 
 ```text
-DESKTOP-3JKM5O9
+DESKTOP-
 ```
 
 Known lab user:
 
 ```text
-DESKTOP-3JKM5O9\mmajeed
+DESKTOP-
 ```
 
 ## Tools Used

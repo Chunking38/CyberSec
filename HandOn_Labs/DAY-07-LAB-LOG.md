@@ -1,11 +1,5 @@
 # Phase 7 Detailed Lab Log — Phishing Investigation, IOC Extraction, Email Security Triage, and Incident Reporting
 
-## Phase 7 Title
-**Phase 7 — Phishing and Email Security Investigation**
-
-## Phase 7 Status
-**Completed**
-
 Phase 7 focused on phishing investigation and email security analysis from a SOC Analyst Level 1 perspective. Earlier phases built the virtual lab, SIEM visibility, endpoint telemetry, Wazuh visibility, alert triage workflow, and SOC ticket-writing skills. Phase 7 shifted into one of the most common real-world SOC queues: suspicious email reports.
 
 This writeup is intentionally detailed so aspiring SOC analysts can use it as a repeatable phishing triage guide.

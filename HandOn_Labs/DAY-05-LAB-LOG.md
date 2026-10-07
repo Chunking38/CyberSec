@@ -1,12 +1,10 @@
-# Day 05 Lab Log - Phase 5 Complete
+# Day 05 Lab Log - Phase 5
 
 ## Scripted Alert Loop, High-Volume SOC Triage, Escalation Notes, and Shift Handoff
-
-**Status:** Phase 5 Complete  
-**Date:** May 22, 2026  
+**Date:** Oct 07, 2026  
 **Focus:** SOC Analyst L1 first-look triage, alert classification, false-positive decisions, escalation notes, and shift handoff documentation.
 
-> Roadmap note: the roadmap references VMware because the planned repeatable version of this lab will run as a VMware attacker/admin loop. This completed run was performed in Oracle VirtualBox using the same SOC workflow: generate repeatable endpoint telemetry, review it in Elastic/Kibana, classify events, and document the analyst decision process.
+> Roadmap note: the roadmap references VMware because the planned repeatable version of this lab will run as a VMware attacker/admin loop. This completed run was performed in VW using the same SOC workflow: generate repeatable endpoint telemetry, review it in Elastic/Kibana, classify events, and document the analyst decision process.
 
 ---
 
@@ -300,7 +298,7 @@ Write-Host "Phase 5 loop complete."
 Set-ExecutionPolicy Bypass -Scope Process -Force
 C:\SOC-Lab\Phase5\phase5-loop.ps1
 ```
-
+=> image running script
 ### Activity Generated
 
 The loop generated:
@@ -325,73 +323,73 @@ The loop generated:
 ```kql
 agent.name : "DESKTOP-3JKM5O9"
 ```
-
+=> image shows result 
 ### Sysmon Process Creation
 
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "1"
 ```
-
+=> image shows result 
 ### Sysmon Network Connections
 
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "3"
 ```
-
+=> image shows result 
 ### Sysmon DNS Queries
 
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "22"
 ```
-
+=> image shows result 
 ### PowerShell Activity
 
 ```kql
 winlog.event_data.CommandLine : *powershell*
 ```
-
+=> image shows result 
 ### whoami Activity
 
 ```kql
 winlog.event_data.CommandLine : *whoami*
 ```
-
+=> image shows result 
 ### nslookup Activity
 
 ```kql
 winlog.event_data.CommandLine : *nslookup*
 ```
-
+=> image shows result 
 ### curl Activity
 
 ```kql
 winlog.event_data.CommandLine : *curl*
 ```
-
+=> image shows result 
 ### net Commands
 
 ```kql
 winlog.event_data.CommandLine : *net*
 ```
-
+=> image shows result 
 ### Local Administrator Group Enumeration
 
 ```kql
 winlog.event_data.CommandLine : *localgroup*
 ```
-
+=> image shows result 
 ### HTTPS Traffic
 
 ```kql
 winlog.event_data.DestinationPort : 443
 ```
-
+=> image shows result 
 ### Successful Windows Logons
 
 ```kql
 winlog.channel : "Security" and event.code : "4624"
 ```
-
+=> image shows result 
 ---
 
 ## 8. Triage Structure Used
@@ -509,8 +507,9 @@ If an event shows:
 ParentUser: NT AUTHORITY\SYSTEM
 ParentImage: C:\Windows\system32\services.exe
 ```
-
 This usually means Windows service/background activity.
+
+=> image show list of windows permanent activity and explain.
 
 SOC lesson: SYSTEM activity is often normal, but attackers can also attempt to run malicious processes as SYSTEM. Analysts must check process name, command line, parent process, file path, user context, and surrounding events.
 
@@ -543,7 +542,6 @@ Office app -> PowerShell
 browser -> unknown executable
 services.exe -> unknown binary
 ```
-
 ---
 
 ## 12. Completed Triage Examples

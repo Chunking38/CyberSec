@@ -1,9 +1,8 @@
 # Day 04 Lab Log - Windows, Linux, and Network Log Fundamentals
 
-**Date:** May 21, 2026  
-**Phase Completed:** Phase 4 - Windows, Linux, and Network Log Fundamentals  
+**Date:** Oct 06, 2026  
 **Focus:** SOC Analyst L1 log interpretation, KQL searching, raw field review, and investigation fundamentals
-
+ 
 ---
 
 ## Phase Overview
@@ -26,17 +25,17 @@ By the end of this phase, I reviewed and documented 20+ important log and event 
 
 ## Environment Used
 
-- Oracle VirtualBox
+- VmWare
 - Ubuntu SIEM VM
   - Elasticsearch
   - Kibana
   - Fleet Server
   - Suricata from the earlier phase
-  - Host-only IP: `192.168.56.101`
+  - Host-only IP: `192.168.`
 - Windows 10 Victim VM
   - Sysmon installed with the SwiftOnSecurity config
   - Elastic Agent enrolled through Fleet
-  - Host-only IP: `192.168.56.104`
+  - Host-only IP: `192.168.`
 - Wazuh Server VM
   - Powered off during most of Phase 4 to save resources
 - Main analysis interface
@@ -63,6 +62,7 @@ Create a personal log reference sheet for SOC Analyst work. For each important l
 ## Log And Event Scenarios Reviewed
 
 ### 1. Sysmon Event ID 1 - Process Creation
+image for event ID 1
 
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "1"
@@ -73,7 +73,7 @@ Sysmon Event ID 1 shows when a process starts on the Windows endpoint. Important
 **SOC value:** This is one of the most important endpoint logs for investigating PowerShell, `cmd.exe`, suspicious scripts, malware execution, persistence, and parent-child process chains.
 
 ### 2. net.exe / net1.exe User And Group Commands
-
+image for event ID 
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "1" and winlog.event_data.CommandLine : *net*
 ```
@@ -83,7 +83,7 @@ Observed activity included `net user`, `net localgroup administrators`, `net.exe
 **SOC value:** Attackers often abuse built-in Windows tools to enumerate accounts, create users, add users to groups, and check administrator membership. Analysts should review command line, parent process, user context, and timing.
 
 ### 3. Sysmon Event ID 11 - File Created
-
+image for event ID 11
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "11"
 ```
@@ -93,7 +93,7 @@ This event shows when a file is created on disk. Important fields included `winl
 **SOC value:** Useful for investigating malware drops, suspicious scripts, persistence files, files written to temp/public folders, and attacker staging activity.
 
 ### 4. Sysmon Event ID 3 - Network Connection
-
+image for event ID 3
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "3"
 ```
@@ -103,7 +103,7 @@ Generated activity included `ping 8.8.8.8`, `nslookup google.com`, `nslookup git
 **SOC value:** Helps identify which process connected to which IP, port, and protocol. Useful for suspicious outbound connections, malware C2, unusual ports, and process-to-network correlation.
 
 ### 5. Sysmon Event ID 22 - DNS Query
-
+image for event ID 22
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "22"
 ```
@@ -113,7 +113,7 @@ Generated activity included `nslookup google.com`, `nslookup github.com`, and `n
 **SOC value:** DNS logs help identify what domains an endpoint attempted to resolve. Useful for phishing domains, malware C2, suspicious downloads, and domain reputation review.
 
 ### 6. Windows Security Event ID 4624 - Successful Logon
-
+image for event ID 4624
 ```kql
 winlog.channel : "Security" and event.code : "4624"
 ```
@@ -130,7 +130,7 @@ Useful logon types:
 **SOC value:** Helps determine who accessed a system, how they logged in, and whether the login method matches expected behavior.
 
 ### 7. Windows Security Event ID 4625 - Failed Logon
-
+image for event ID 4625
 ```kql
 winlog.channel : "Security" and event.code : "4625"
 ```
@@ -138,7 +138,7 @@ winlog.channel : "Security" and event.code : "4625"
 **SOC value:** Failed logons are used to detect brute force attempts, password spraying, mistyped credentials, invalid accounts, and unauthorized access attempts.
 
 ### 8. Windows Security Event ID 4672 - Special Privileges Assigned
-
+image for event ID 4672
 ```kql
 winlog.channel : "Security" and event.code : "4672"
 ```
@@ -146,7 +146,7 @@ winlog.channel : "Security" and event.code : "4672"
 **SOC value:** Shows when an account logs in with administrative or special privileges. This matters when correlated with suspicious logins, new accounts, group changes, or unusual process execution.
 
 ### 9. Windows Security Event ID 4720 - User Account Created
-
+image for event ID 4720
 ```kql
 winlog.channel : "Security" and event.code : "4720"
 ```
@@ -160,7 +160,7 @@ net user phase4user P@ssw0rd123 /add
 **SOC value:** Attackers may create local accounts for persistence. Analysts should check who created the account, when it was created, and what happened before and after.
 
 ### 10. Windows Security Event ID 4732 - User Added To Local Group
-
+image for event ID 4732
 ```kql
 winlog.channel : "Security" and event.code : "4732"
 ```
@@ -174,7 +174,7 @@ net localgroup administrators phase4user /add
 **SOC value:** Important for privilege escalation and persistence investigations because attackers often add accounts to local administrator groups.
 
 ### 11. Windows Security Event ID 4726 - User Account Deleted
-
+image for event ID 4726
 ```kql
 winlog.channel : "Security" and event.code : "4726"
 ```
@@ -182,7 +182,7 @@ winlog.channel : "Security" and event.code : "4726"
 **SOC value:** Can represent normal cleanup, but it can also show attacker cleanup after creating a temporary persistence account.
 
 ### 12. Windows Security Event ID 4740 - Account Locked Out
-
+image for event ID 4740
 ```kql
 winlog.channel : "Security" and event.code : "4740"
 ```
@@ -190,7 +190,7 @@ winlog.channel : "Security" and event.code : "4740"
 **SOC value:** Account lockouts may indicate brute force attempts, password spraying, repeated failed logins, or user error.
 
 ### 13. Windows System Event ID 7045 - New Service Installed
-
+image for event ID 7045
 ```kql
 winlog.channel : "System" and event.code : "7045"
 ```
@@ -198,7 +198,7 @@ winlog.channel : "System" and event.code : "7045"
 **SOC value:** Attackers commonly create services for persistence, execution, or malware installation. Analysts should review the service name, executable path, user context, and whether the service is expected.
 
 ### 14. Sysmon Event ID 7 - Image Loaded
-
+image for event ID 7
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "7"
 ```
@@ -206,7 +206,7 @@ winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "7"
 **SOC value:** Useful for spotting suspicious DLL loading, unsigned modules, DLL hijacking, or unusual libraries loaded by trusted processes.
 
 ### 15. Sysmon Event ID 10 - Process Access
-
+image for event ID 10
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "10"
 ```
@@ -220,7 +220,7 @@ winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "10" an
 **SOC value:** Important for detecting credential dumping, LSASS access, process injection, and suspicious process tampering.
 
 ### 16. Sysmon Event ID 13 - Registry Value Set
-
+image for event ID 13
 ```kql
 winlog.channel : "Microsoft-Windows-Sysmon/Operational" and event.code : "13"
 ```
@@ -230,7 +230,7 @@ Common suspicious registry areas include `Run`, `RunOnce`, `Winlogon`, `Services
 **SOC value:** Attackers often modify registry keys for persistence, disabling security tools, startup execution, or changing system behavior.
 
 ### 17. Linux SSH Authentication Logs
-
+image for checking SSH log
 ```bash
 sudo grep sshd /var/log/auth.log | tail -n 30
 ```
@@ -238,7 +238,7 @@ sudo grep sshd /var/log/auth.log | tail -n 30
 **SOC value:** Helps identify successful and failed remote login attempts, source IPs, target users, and authentication patterns.
 
 ### 18. Linux sudo Usage Logs
-
+image for checking SSH admin log
 ```bash
 sudo grep sudo /var/log/auth.log | tail -n 30
 ```
@@ -246,7 +246,7 @@ sudo grep sudo /var/log/auth.log | tail -n 30
 **SOC value:** Useful for auditing privileged activity, reviewing administrative commands, and identifying possible privilege escalation behavior.
 
 ### 19. Linux Service Logs With journalctl
-
+image for checking services funct
 ```bash
 sudo journalctl -u ssh --no-pager | tail -n 30
 sudo journalctl -u elasticsearch --no-pager | tail -n 30
@@ -256,7 +256,7 @@ sudo journalctl -u kibana --no-pager | tail -n 30
 **SOC value:** Helps troubleshoot whether important services are running, crashing, restarting, or throwing errors.
 
 ### 20. Network Log Fundamentals
-
+image for log collection
 Reviewed fields:
 
 - Source IP
@@ -271,7 +271,9 @@ Reviewed fields:
 **SOC value:** Network logs help analysts determine who connected to what, when, over which protocol, and from which process.
 
 ### 21. Suricata / IDS Alert Fields
-
+---
+image of suricata log
+---
 Log locations:
 
 ```bash
